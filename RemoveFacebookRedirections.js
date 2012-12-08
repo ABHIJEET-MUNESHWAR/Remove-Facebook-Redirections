@@ -4,6 +4,8 @@
 // @include        http://www.facebook.com/*
 // @include        http://facebook.com/*
 // @run-at         document-start
+// This script is based on https://github.com/born2c0de/facebook-redirect-fixer/blob/master/includes/fixFacebookRedirect.js
+//@License	GPLv3 or later
 // ==/UserScript==
 
 document.addEventListener('DOMNodeInserted',checksearch,false);
@@ -40,6 +42,12 @@ function huntForLinks()
 		{
 			items[i].removeAttribute('onmousedown');		
 			items[i].addEventListener('mouseenter',fixRedirect,false);
-		}		
+		}
+		else if(refPattern.test(items[i].href)) 
+		{			
+			var realHref = items[i].href.replace(refPattern,"$1");
+			realHref = realHref.replace(/[\?#&]+$/,"");
+			items[i].href = realHref;			
+		}
 	}	
 }
